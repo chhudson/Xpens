@@ -73,3 +73,15 @@ Unit tests use Swift Testing framework (`import Testing`, `@Suite`, `@Test`, `#e
 - `CurrencyFormatter` is dynamic — configurable via `setCurrency(code:)`, initialized from `UserPreferences` on launch
 - OCRService Vision continuation guards against double-resume with a `didResume` flag
 - Recurring expenses use `Expense.isRecurring` flag with `recurrenceRule` string ("weekly"/"monthly"/"yearly")
+- Creating a recurring expense also logs the first occurrence as a regular expense
+
+## Roadmap
+
+Planned features (see README.md for full list):
+- App Store submission prep (icon, screenshots, description, privacy policy)
+- Polish pass (empty states, haptics, dark mode audit)
+- Performance profiling (SwiftData queries, PDF generation)
+- Accessibility (VoiceOver, Dynamic Type, contrast)
+- Home Screen Widget (WidgetKit)
+- Search enhancements (amount range, date range, tag filters)
+- Data visualization (trends, per-tag breakdowns, client reporting)

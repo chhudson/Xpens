@@ -46,7 +46,9 @@ xcodebuild -project Xpens.xcodeproj -scheme Xpens \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
 ```
 
-82 unit tests across 14 suites cover models, services, and utilities using the Swift Testing framework.
+94 tests total:
+- **82 unit tests** across 14 suites (Swift Testing framework) — models, services, utilities
+- **12 UI tests** across 5 suites (XCUITest) — onboarding, expense entry, recurring, reports, settings
 
 ## Project Structure
 
@@ -79,3 +81,13 @@ Xpens/
 - **StoreKit 2** — In-app tip jar purchases
 - **CloudKit** — iCloud Documents backup container
 - **XcodeGen** — Xcode project generation from YAML
+
+## Roadmap
+
+- [ ] **App Store submission** — App icon, screenshots, App Store description, privacy policy
+- [ ] **Polish pass** — Empty state refinements, error handling edge cases, haptic feedback, loading indicators, dark mode audit
+- [ ] **Performance profiling** — Instruments profiling for SwiftData queries on large datasets and PDF generation
+- [ ] **Accessibility** — VoiceOver labels, Dynamic Type support, color contrast audit
+- [ ] **Home Screen Widget** — WidgetKit widget showing recent expenses or monthly total
+- [ ] **Search enhancements** — Filter by amount range, date range, and tags from the search bar
+- [ ] **Data visualization** — Monthly spending trends, per-tag breakdowns, client-level reporting
