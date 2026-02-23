@@ -21,7 +21,7 @@ cd Xpens && xcodegen generate
 xcodebuild -project Xpens.xcodeproj -scheme Xpens \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 
-# Run all tests (94 tests: 82 unit + 12 UI)
+# Run all tests (101 tests: 89 unit + 12 UI)
 xcodebuild -project Xpens.xcodeproj -scheme Xpens \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
 
