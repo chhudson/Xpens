@@ -45,6 +45,20 @@ struct ExpenseRowView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+
+            if let tags = expense.tags, !tags.isEmpty {
+                HStack(spacing: 4) {
+                    ForEach(tags) { tag in
+                        Text(tag.name)
+                            .font(.caption2)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(tag.swiftUIColor.opacity(0.15))
+                            .clipShape(Capsule())
+                            .foregroundStyle(tag.swiftUIColor)
+                    }
+                }
+            }
         }
     }
 

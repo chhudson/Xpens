@@ -11,6 +11,7 @@ struct ManualEntryView: View {
     @State private var merchant: String
     @State private var client: String = ""
     @State private var notes: String = ""
+    @State private var selectedTags: [Tag] = []
     @State private var showingValidationAlert = false
 
     let receiptImagePath: String?
@@ -51,6 +52,10 @@ struct ManualEntryView: View {
                     CategoryPicker(selection: $category)
                 }
 
+                Section("Tags") {
+                    TagPicker(selectedTags: $selectedTags)
+                }
+
                 Section("Details") {
                     CurrencyTextField(title: "0.00", amount: $amount)
                     TextField("Merchant", text: $merchant)
@@ -89,6 +94,7 @@ struct ManualEntryView: View {
         let expense = Expense(
             date: date,
             category: category,
+            tags: selectedTags.isEmpty ? nil : selectedTags,
             amount: amount,
             merchant: merchant.trimmingCharacters(in: .whitespaces),
             client: client.trimmingCharacters(in: .whitespaces),

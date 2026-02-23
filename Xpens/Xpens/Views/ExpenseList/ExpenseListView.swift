@@ -8,6 +8,7 @@ struct ExpenseListView: View {
     @State private var searchText = ""
     @State private var selectedCategory: Category?
     @State private var selectedClient = ""
+    @State private var selectedTags: Set<UUID> = []
     @State private var sortOrder: ExpenseSortOrder = .dateDescending
     @State private var showingFilter = false
     @State private var showingAddExpense = false
@@ -39,6 +40,7 @@ struct ExpenseListView: View {
                 ExpenseFilterView(
                     selectedCategory: $selectedCategory,
                     selectedClient: $selectedClient,
+                    selectedTags: $selectedTags,
                     sortOrder: $sortOrder,
                     availableClients: uniqueClients
                 )
@@ -71,6 +73,13 @@ struct ExpenseListView: View {
             let client = selectedClient.lowercased()
             result = result.filter {
                 $0.client.lowercased().contains(client)
+            }
+        }
+
+        if !selectedTags.isEmpty {
+            result = result.filter { expense in
+                guard let tags = expense.tags else { return false }
+                return !selectedTags.isDisjoint(with: Set(tags.map(\.id)))
             }
         }
 
@@ -111,7 +120,7 @@ struct ExpenseListView: View {
 
     private var hasActiveFilters: Bool {
         selectedCategory != nil || !selectedClient.isEmpty ||
-        sortOrder != .dateDescending
+        !selectedTags.isEmpty || sortOrder != .dateDescending
     }
 
     // MARK: - Subviews

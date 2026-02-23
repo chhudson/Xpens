@@ -87,6 +87,25 @@ struct ExpenseDetailView: View {
                 label: "Category",
                 value: expense.category?.name ?? "Uncategorized"
             )
+
+            if let tags = expense.tags, !tags.isEmpty {
+                HStack {
+                    Text("Tags")
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    HStack(spacing: 4) {
+                        ForEach(tags) { tag in
+                            Text(tag.name)
+                                .font(.caption)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(tag.swiftUIColor.opacity(0.15))
+                                .clipShape(Capsule())
+                                .foregroundStyle(tag.swiftUIColor)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -167,6 +186,7 @@ struct ExpenseEditView: View {
     @State private var merchant: String
     @State private var client: String
     @State private var notes: String
+    @State private var selectedTags: [Tag]
     @State private var showingValidationAlert = false
 
     init(expense: Expense) {
@@ -177,6 +197,7 @@ struct ExpenseEditView: View {
         _merchant = State(initialValue: expense.merchant)
         _client = State(initialValue: expense.client)
         _notes = State(initialValue: expense.notes)
+        _selectedTags = State(initialValue: expense.tags ?? [])
     }
 
     var body: some View {
@@ -189,6 +210,10 @@ struct ExpenseEditView: View {
 
                 Section("Category") {
                     CategoryPicker(selection: $category)
+                }
+
+                Section("Tags") {
+                    TagPicker(selectedTags: $selectedTags)
                 }
 
                 Section("Details") {
@@ -228,6 +253,7 @@ struct ExpenseEditView: View {
 
         expense.date = date
         expense.category = category
+        expense.tags = selectedTags.isEmpty ? nil : selectedTags
         expense.amount = amount
         expense.merchant = merchant.trimmingCharacters(in: .whitespaces)
         expense.client = client.trimmingCharacters(in: .whitespaces)

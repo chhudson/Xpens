@@ -13,9 +13,11 @@ enum ExpenseSortOrder: String, CaseIterable, Identifiable {
 struct ExpenseFilterView: View {
     @Binding var selectedCategory: Category?
     @Binding var selectedClient: String
+    @Binding var selectedTags: Set<UUID>
     @Binding var sortOrder: ExpenseSortOrder
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \Category.sortOrder) private var categories: [Category]
+    @Query(sort: \Tag.name) private var tags: [Tag]
 
     let availableClients: [String]
 
@@ -23,6 +25,7 @@ struct ExpenseFilterView: View {
         NavigationStack {
             Form {
                 categorySection
+                tagSection
                 clientSection
                 sortSection
             }
@@ -93,9 +96,42 @@ struct ExpenseFilterView: View {
         }
     }
 
+    private var tagSection: some View {
+        Section("Tags") {
+            if tags.isEmpty {
+                Text("No tags created yet")
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(tags) { tag in
+                    Button {
+                        if selectedTags.contains(tag.id) {
+                            selectedTags.remove(tag.id)
+                        } else {
+                            selectedTags.insert(tag.id)
+                        }
+                    } label: {
+                        HStack {
+                            Circle()
+                                .fill(tag.swiftUIColor)
+                                .frame(width: 10, height: 10)
+                            Text(tag.name)
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            if selectedTags.contains(tag.id) {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(.blue)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private func resetFilters() {
         selectedCategory = nil
         selectedClient = ""
+        selectedTags = []
         sortOrder = .dateDescending
     }
 }
