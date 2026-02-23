@@ -1,0 +1,64 @@
+{
+  "identifier" : "8A5C9B2E-4F3D-4A1B-9E8C-1D2F3A4B5C6D",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "tip_coffee_001",
+      "localizations" : [
+        {
+          "description" : "Buy the developer a coffee",
+          "displayName" : "Coffee Tip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.xpens.tip.coffee",
+      "referenceName" : "Coffee Tip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "tip_lunch_001",
+      "localizations" : [
+        {
+          "description" : "Buy the developer lunch",
+          "displayName" : "Lunch Tip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.xpens.tip.lunch",
+      "referenceName" : "Lunch Tip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "tip_dinner_001",
+      "localizations" : [
+        {
+          "description" : "Buy the developer dinner",
+          "displayName" : "Dinner Tip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.xpens.tip.dinner",
+      "referenceName" : "Dinner Tip",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "xpens_app_001",
+    "_developerTeamID" : ""
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

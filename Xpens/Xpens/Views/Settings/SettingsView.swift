@@ -37,6 +37,14 @@ struct SettingsView: View {
                     }
                 }
 
+                Section("Support") {
+                    NavigationLink {
+                        TipJarView()
+                    } label: {
+                        Label("Tip Jar", systemImage: "heart.fill")
+                    }
+                }
+
                 Section("Backup") {
                     NavigationLink {
                         BackupView()
