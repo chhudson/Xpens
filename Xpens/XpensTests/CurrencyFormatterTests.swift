@@ -2,11 +2,12 @@ import Foundation
 import Testing
 @testable import Xpens
 
-@Suite("CurrencyFormatter")
+@Suite("CurrencyFormatter", .serialized)
 struct CurrencyFormatterTests {
 
     @Test("formats positive amounts as USD")
     func formatsPositiveAmounts() {
+        CurrencyFormatter.setCurrency(code: "USD")
         #expect(CurrencyFormatter.string(from: 1234.56) == "$1,234.56")
         #expect(CurrencyFormatter.string(from: 0) == "$0.00")
         #expect(CurrencyFormatter.string(from: 99.90) == "$99.90")
@@ -44,5 +45,46 @@ struct CurrencyFormatterTests {
     func returnsNilForInvalid() {
         #expect(CurrencyFormatter.decimal(from: "abc") == nil)
         #expect(CurrencyFormatter.decimal(from: "") == nil)
+    }
+
+    // MARK: - Dynamic currency tests
+
+    @Test("currencyCode defaults to USD")
+    func defaultCurrencyCode() {
+        CurrencyFormatter.setCurrency(code: "USD")
+        #expect(CurrencyFormatter.currencyCode == "USD")
+    }
+
+    @Test("setCurrency changes active currency")
+    func setCurrencyChangesCode() {
+        CurrencyFormatter.setCurrency(code: "EUR")
+        #expect(CurrencyFormatter.currencyCode == "EUR")
+        CurrencyFormatter.setCurrency(code: "USD") // reset
+    }
+
+    @Test("formats EUR amounts with euro symbol")
+    func formatsEUR() {
+        CurrencyFormatter.setCurrency(code: "EUR")
+        let result = CurrencyFormatter.string(from: 1234.56)
+        #expect(result.contains("1,234.56") || result.contains("1.234,56"))
+        CurrencyFormatter.setCurrency(code: "USD") // reset
+    }
+
+    @Test("formats GBP amounts with pound symbol")
+    func formatsGBP() {
+        CurrencyFormatter.setCurrency(code: "GBP")
+        let result = CurrencyFormatter.string(from: 99.99)
+        #expect(result.contains("99.99"))
+        CurrencyFormatter.setCurrency(code: "USD") // reset
+    }
+
+    @Test("parses amounts after currency change")
+    func parsesAfterCurrencyChange() {
+        CurrencyFormatter.setCurrency(code: "USD")
+        #expect(CurrencyFormatter.decimal(from: "$1,234.56") == Decimal(string: "1234.56"))
+        CurrencyFormatter.setCurrency(code: "EUR")
+        let parsed = CurrencyFormatter.decimal(from: "€1,234.56")
+        #expect(parsed == Decimal(string: "1234.56"))
+        CurrencyFormatter.setCurrency(code: "USD") // reset
     }
 }
