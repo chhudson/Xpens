@@ -16,8 +16,24 @@ struct XpensApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainTabView()
+            RootView()
         }
         .modelContainer(container)
+    }
+}
+
+private struct RootView: View {
+    @Query private var allPreferences: [UserPreferences]
+
+    private var hasCompletedOnboarding: Bool {
+        allPreferences.first?.hasCompletedOnboarding ?? false
+    }
+
+    var body: some View {
+        if hasCompletedOnboarding {
+            MainTabView()
+        } else {
+            OnboardingView()
+        }
     }
 }
