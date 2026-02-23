@@ -52,10 +52,16 @@ struct ExpenseListView: View {
         }
     }
 
+    // MARK: - Recurring Templates
+
+    private var recurringTemplates: [Expense] {
+        allExpenses.filter { $0.isRecurring }
+    }
+
     // MARK: - Filtered + Sorted Data
 
     private var filteredExpenses: [Expense] {
-        var result = allExpenses
+        var result = allExpenses.filter { !$0.isRecurring }
 
         if !searchText.isEmpty {
             let query = searchText.lowercased()
@@ -129,6 +135,17 @@ struct ExpenseListView: View {
         List {
             totalSection
 
+            if !recurringTemplates.isEmpty {
+                Section("Recurring") {
+                    ForEach(recurringTemplates) { template in
+                        RecurringExpenseRow(expense: template)
+                    }
+                    .onDelete { offsets in
+                        deleteRecurringTemplates(at: offsets)
+                    }
+                }
+            }
+
             ForEach(groupedByMonth, id: \.0) { header, expenses in
                 Section(header) {
                     ForEach(expenses) { expense in
@@ -193,6 +210,12 @@ struct ExpenseListView: View {
                 try? ImageStorageService.deleteImage(relativePath: path)
             }
             modelContext.delete(expense)
+        }
+    }
+
+    private func deleteRecurringTemplates(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(recurringTemplates[index])
         }
     }
 }

@@ -12,6 +12,8 @@ struct ManualEntryView: View {
     @State private var client: String = ""
     @State private var notes: String = ""
     @State private var selectedTags: [Tag] = []
+    @State private var isRecurring = false
+    @State private var recurrenceRule = "monthly"
     @State private var showingValidationAlert = false
 
     let receiptImagePath: String?
@@ -63,6 +65,22 @@ struct ManualEntryView: View {
                     TextField("Notes", text: $notes, axis: .vertical)
                         .lineLimit(3...6)
                 }
+
+                Section {
+                    Toggle("Make Recurring", isOn: $isRecurring)
+
+                    if isRecurring {
+                        Picker("Frequency", selection: $recurrenceRule) {
+                            Text("Weekly").tag("weekly")
+                            Text("Monthly").tag("monthly")
+                            Text("Yearly").tag("yearly")
+                        }
+                    }
+                } footer: {
+                    if isRecurring {
+                        Text("A new expense will be created automatically at this frequency.")
+                    }
+                }
             }
             .navigationTitle("New Expense")
             .navigationBarTitleDisplayMode(.inline)
@@ -99,7 +117,9 @@ struct ManualEntryView: View {
             merchant: merchant.trimmingCharacters(in: .whitespaces),
             client: client.trimmingCharacters(in: .whitespaces),
             notes: notes.trimmingCharacters(in: .whitespaces),
-            receiptImagePath: receiptImagePath
+            receiptImagePath: receiptImagePath,
+            isRecurring: isRecurring,
+            recurrenceRule: isRecurring ? recurrenceRule : nil
         )
         modelContext.insert(expense)
         dismiss()

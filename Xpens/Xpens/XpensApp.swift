@@ -12,6 +12,17 @@ struct XpensApp: App {
         let context = container.mainContext
         let prefs = (try? context.fetch(FetchDescriptor<UserPreferences>()))?.first
         CurrencyFormatter.setCurrency(code: prefs?.currencyCode ?? "USD")
+
+        // Generate any pending recurring expenses
+        let recurringDescriptor = FetchDescriptor<Expense>(
+            predicate: #Predicate<Expense> { $0.isRecurring }
+        )
+        if let templates = try? context.fetch(recurringDescriptor), !templates.isEmpty {
+            RecurringExpenseService.generatePendingExpenses(
+                templates: templates,
+                modelContext: context
+            )
+        }
     }
 
     var body: some Scene {
