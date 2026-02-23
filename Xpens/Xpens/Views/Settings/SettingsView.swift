@@ -20,21 +20,25 @@ struct SettingsView: View {
                                 .foregroundStyle(.secondary)
                         }
                     }
+                    .accessibilityIdentifier(AccessibilityID.Settings.currencyRow)
                 }
 
                 Section("Categories") {
                     NavigationLink("Manage Categories") {
                         ManageCategoriesView()
                     }
+                    .accessibilityIdentifier(AccessibilityID.Settings.manageCategoriesRow)
                     NavigationLink("Featured Categories") {
                         FeaturedCategoriesView()
                     }
+                    .accessibilityIdentifier(AccessibilityID.Settings.featuredCategoriesRow)
                 }
 
                 Section("Tags") {
                     NavigationLink("Manage Tags") {
                         ManageTagsView()
                     }
+                    .accessibilityIdentifier(AccessibilityID.Settings.manageTagsRow)
                 }
 
                 Section("Support") {
@@ -43,6 +47,7 @@ struct SettingsView: View {
                     } label: {
                         Label("Tip Jar", systemImage: "heart.fill")
                     }
+                    .accessibilityIdentifier(AccessibilityID.Settings.tipJarRow)
                 }
 
                 Section("Backup") {
@@ -51,6 +56,7 @@ struct SettingsView: View {
                     } label: {
                         Label("Backup & Restore", systemImage: "arrow.clockwise.icloud")
                     }
+                    .accessibilityIdentifier(AccessibilityID.Settings.backupRow)
                 }
 
                 Section("About") {
@@ -59,6 +65,7 @@ struct SettingsView: View {
                         Spacer()
                         Text("1.0")
                             .foregroundStyle(.secondary)
+                            .accessibilityIdentifier(AccessibilityID.Settings.versionLabel)
                     }
                 }
             }

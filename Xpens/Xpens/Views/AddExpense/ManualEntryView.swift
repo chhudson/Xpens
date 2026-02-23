@@ -60,14 +60,19 @@ struct ManualEntryView: View {
 
                 Section("Details") {
                     CurrencyTextField(title: "0.00", amount: $amount)
+                        .accessibilityIdentifier(AccessibilityID.ManualEntry.amountField)
                     TextField("Merchant", text: $merchant)
+                        .accessibilityIdentifier(AccessibilityID.ManualEntry.merchantField)
                     TextField("Client", text: $client)
+                        .accessibilityIdentifier(AccessibilityID.ManualEntry.clientField)
                     TextField("Notes", text: $notes, axis: .vertical)
+                        .accessibilityIdentifier(AccessibilityID.ManualEntry.notesField)
                         .lineLimit(3...6)
                 }
 
                 Section {
                     Toggle("Make Recurring", isOn: $isRecurring)
+                        .accessibilityIdentifier(AccessibilityID.ManualEntry.recurringToggle)
 
                     if isRecurring {
                         Picker("Frequency", selection: $recurrenceRule) {
@@ -75,6 +80,7 @@ struct ManualEntryView: View {
                             Text("Monthly").tag("monthly")
                             Text("Yearly").tag("yearly")
                         }
+                        .accessibilityIdentifier(AccessibilityID.ManualEntry.frequencyPicker)
                     }
                 } footer: {
                     if isRecurring {
@@ -87,9 +93,11 @@ struct ManualEntryView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
+                        .accessibilityIdentifier(AccessibilityID.ManualEntry.cancelButton)
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") { save() }
+                        .accessibilityIdentifier(AccessibilityID.ManualEntry.saveButton)
                         .fontWeight(.semibold)
                 }
             }

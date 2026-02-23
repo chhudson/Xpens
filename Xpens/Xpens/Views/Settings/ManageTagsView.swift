@@ -35,6 +35,7 @@ struct ManageTagsView: View {
                 }
             }
         }
+        .accessibilityIdentifier(AccessibilityID.ManageTags.list)
         .navigationTitle("Tags")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -44,6 +45,7 @@ struct ManageTagsView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
+                .accessibilityIdentifier(AccessibilityID.ManageTags.addButton)
             }
         }
         .sheet(isPresented: $showingAddSheet) {

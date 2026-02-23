@@ -50,6 +50,7 @@ struct CategoryPicker: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .foregroundStyle(.primary)
             }
+            .accessibilityIdentifier(AccessibilityID.CategoryPicker.otherButton)
         }
         .sheet(isPresented: $showingAllCategories) {
             AllCategoriesSheet(selection: $selection, categories: categories)
@@ -102,6 +103,7 @@ private struct AllCategoriesSheet: View {
                 }
             }
         }
+        .accessibilityIdentifier(AccessibilityID.CategoryPicker.allCategoriesSheet)
     }
 }
 

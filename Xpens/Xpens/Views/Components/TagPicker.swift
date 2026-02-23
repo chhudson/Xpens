@@ -31,6 +31,7 @@ struct TagPicker: View {
                             .background(Color(.tertiarySystemBackground))
                             .clipShape(Capsule())
                     }
+                    .accessibilityIdentifier(AccessibilityID.TagPicker.newButton)
                     .foregroundStyle(.primary)
                 }
                 .padding(.horizontal, 1)
@@ -39,16 +40,19 @@ struct TagPicker: View {
             if showingNewTag {
                 HStack {
                     TextField("Tag name", text: $newTagName)
+                        .accessibilityIdentifier(AccessibilityID.TagPicker.tagNameField)
                         .textFieldStyle(.roundedBorder)
                         .font(.caption)
                     Button("Add") {
                         createTag()
                     }
+                    .accessibilityIdentifier(AccessibilityID.TagPicker.addButton)
                     .disabled(newTagName.trimmingCharacters(in: .whitespaces).isEmpty)
                     Button("Cancel") {
                         showingNewTag = false
                         newTagName = ""
                     }
+                    .accessibilityIdentifier(AccessibilityID.TagPicker.cancelButton)
                     .foregroundStyle(.secondary)
                 }
             }

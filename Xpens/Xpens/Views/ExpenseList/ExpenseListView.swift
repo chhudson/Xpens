@@ -34,6 +34,7 @@ struct ExpenseListView: View {
                     } label: {
                         Image(systemName: "plus")
                     }
+                    .accessibilityIdentifier(AccessibilityID.ExpenseList.addButton)
                 }
             }
             .sheet(isPresented: $showingFilter) {
@@ -159,6 +160,7 @@ struct ExpenseListView: View {
                 }
             }
         }
+        .accessibilityIdentifier(AccessibilityID.ExpenseList.list)
         .listStyle(.insetGrouped)
         .navigationDestination(for: UUID.self) { id in
             if let expense = allExpenses.first(where: { $0.id == id }) {
@@ -188,6 +190,7 @@ struct ExpenseListView: View {
                   ? "line.3.horizontal.decrease.circle.fill"
                   : "line.3.horizontal.decrease.circle")
         }
+        .accessibilityIdentifier(AccessibilityID.ExpenseList.filterButton)
     }
 
     private var emptyState: some View {
@@ -196,6 +199,7 @@ struct ExpenseListView: View {
             systemImage: "tray",
             description: Text("Tap + to add your first expense.")
         )
+        .accessibilityIdentifier(AccessibilityID.ExpenseList.emptyState)
     }
 
     // MARK: - Actions

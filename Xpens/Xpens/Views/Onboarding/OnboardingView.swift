@@ -31,6 +31,7 @@ struct OnboardingView: View {
                 Button("Skip") {
                     completeOnboarding()
                 }
+                .accessibilityIdentifier(AccessibilityID.Onboarding.skipButton)
                 .foregroundStyle(.secondary)
 
                 Spacer()
@@ -39,11 +40,13 @@ struct OnboardingView: View {
                     Button("Next") {
                         currentPage += 1
                     }
+                    .accessibilityIdentifier(AccessibilityID.Onboarding.nextButton)
                     .fontWeight(.semibold)
                 } else {
                     Button("Get Started") {
                         completeOnboarding()
                     }
+                    .accessibilityIdentifier(AccessibilityID.Onboarding.getStartedButton)
                     .fontWeight(.semibold)
                 }
             }

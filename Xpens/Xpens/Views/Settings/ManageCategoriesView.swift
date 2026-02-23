@@ -32,6 +32,7 @@ struct ManageCategoriesView: View {
             }
             .onDelete(perform: requestDelete)
         }
+        .accessibilityIdentifier(AccessibilityID.ManageCategories.list)
         .navigationTitle("Categories")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -41,6 +42,7 @@ struct ManageCategoriesView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
+                .accessibilityIdentifier(AccessibilityID.ManageCategories.addButton)
             }
         }
         .sheet(isPresented: $showingAddSheet) {

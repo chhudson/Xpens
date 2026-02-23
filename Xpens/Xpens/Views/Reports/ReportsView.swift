@@ -104,6 +104,7 @@ struct ReportsView: View {
                             .foregroundStyle(.secondary)
                         Text(CurrencyFormatter.string(from: total))
                             .font(.system(size: 34, weight: .bold))
+                            .accessibilityIdentifier(AccessibilityID.Reports.totalAmount)
                         Text(
                             "\(filteredExpenses.count) expense\(filteredExpenses.count == 1 ? "" : "s")"
                         )
@@ -128,6 +129,7 @@ struct ReportsView: View {
                             }
                         }
                         .chartXAxis(.hidden)
+                        .accessibilityIdentifier(AccessibilityID.Reports.categoryChart)
                         .frame(height: CGFloat(categoryData.count) * 50)
                     }
                 }
@@ -142,6 +144,7 @@ struct ReportsView: View {
                     } label: {
                         Label("View Full Report", systemImage: "doc.text.magnifyingglass")
                     }
+                    .accessibilityIdentifier(AccessibilityID.Reports.viewReportButton)
                     .disabled(filteredExpenses.isEmpty)
                 }
             }
