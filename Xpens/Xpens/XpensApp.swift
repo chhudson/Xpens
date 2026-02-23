@@ -9,6 +9,32 @@ struct XpensApp: App {
         let container = try! ModelContainer(for: Expense.self, Category.self, Tag.self, UserPreferences.self)
         self.container = container
 
+        #if DEBUG
+        if CommandLine.arguments.contains("--uitesting-reset") {
+            let resetContext = container.mainContext
+            try? resetContext.delete(model: Expense.self)
+            try? resetContext.delete(model: Category.self)
+            try? resetContext.delete(model: Tag.self)
+            try? resetContext.delete(model: UserPreferences.self)
+            try? resetContext.save()
+        }
+        if CommandLine.arguments.contains("--uitesting-skip-onboarding") {
+            let seedContext = container.mainContext
+            let existingPrefs = (try? seedContext.fetch(FetchDescriptor<UserPreferences>()))?.first
+            if existingPrefs == nil {
+                let categories = Category.createDefaults()
+                for cat in categories { seedContext.insert(cat) }
+                let prefs = UserPreferences(
+                    currencyCode: "USD",
+                    hasCompletedOnboarding: true,
+                    featuredCategoryIDs: Array(categories.prefix(4).map(\.id))
+                )
+                seedContext.insert(prefs)
+                try? seedContext.save()
+            }
+        }
+        #endif
+
         let context = container.mainContext
         let prefs = (try? context.fetch(FetchDescriptor<UserPreferences>()))?.first
         CurrencyFormatter.setCurrency(code: prefs?.currencyCode ?? "USD")
