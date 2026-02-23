@@ -31,7 +31,7 @@ enum CSVExportService {
 
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent(
-                "Slide3_Expenses_\(fileTimestamp()).csv"
+                "Xpens_Expenses_\(fileTimestamp()).csv"
             )
         try content.write(to: url, atomically: true, encoding: .utf8)
         return url

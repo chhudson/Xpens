@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Slide3Expenses
+@testable import Xpens
 
 @Suite("PDFExportService", .serialized)
 struct PDFExportServiceTests {
@@ -38,12 +38,12 @@ struct PDFExportServiceTests {
         try? FileManager.default.removeItem(at: url)
     }
 
-    @Test("exported filename contains 'Slide3_Report'")
+    @Test("exported filename contains 'Xpens_Report'")
     func filenameFormat() throws {
         let url = try PDFExportService.exportToFile(
             expenses: [], startDate: startDate, endDate: endDate
         )
-        #expect(url.lastPathComponent.hasPrefix("Slide3_Report_"))
+        #expect(url.lastPathComponent.hasPrefix("Xpens_Report_"))
         #expect(url.pathExtension == "pdf")
         try? FileManager.default.removeItem(at: url)
     }

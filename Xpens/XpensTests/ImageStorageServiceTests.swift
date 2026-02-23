@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 import UIKit
-@testable import Slide3Expenses
+@testable import Xpens
 
 @Suite("ImageStorageService")
 struct ImageStorageServiceTests {

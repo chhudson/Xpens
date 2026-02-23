@@ -1,5 +1,5 @@
 import Testing
-@testable import Slide3Expenses
+@testable import Xpens
 
 @Suite("ExpenseCategory")
 struct ExpenseCategoryTests {

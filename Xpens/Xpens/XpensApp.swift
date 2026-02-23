@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct Slide3ExpensesApp: App {
+struct XpensApp: App {
     var body: some Scene {
         WindowGroup {
             MainTabView()

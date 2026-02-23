@@ -4,29 +4,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Slide3 Expenses is an iOS app built for Slide3 employees to track business expenses while traveling or incurring costs. The core workflow is: capture receipts via OCR, categorize expenses, then export polished PDF/CSV reports to send to accounting. All data is stored locally on-device — the app focuses on making the capture-to-export loop as frictionless as possible. Built with Swift 6 / SwiftUI targeting iOS 18.0+ / Xcode 16+.
+Xpens is an iOS app for tracking business expenses while traveling or incurring costs. The core workflow is: capture receipts via OCR, categorize expenses, then export polished PDF/CSV reports to send to accounting. All data is stored locally on-device — the app focuses on making the capture-to-export loop as frictionless as possible. Built with Swift 6 / SwiftUI targeting iOS 18.0+ / Xcode 16+.
 
 ## Build & Run
 
-The Xcode project is generated via [XcodeGen](https://github.com/yonaskolb/XcodeGen) from `Slide3Expenses/project.yml`. The `.xcodeproj` is gitignored — regenerate it after cloning or editing `project.yml`:
+The Xcode project is generated via [XcodeGen](https://github.com/yonaskolb/XcodeGen) from `Xpens/project.yml`. The `.xcodeproj` is gitignored — regenerate it after cloning or editing `project.yml`:
 
 ```
-cd Slide3Expenses && xcodegen generate
+cd Xpens && xcodegen generate
 ```
 
-### CLI commands (from `Slide3Expenses/` directory)
+### CLI commands (from `Xpens/` directory)
 
 ```bash
 # Build
-xcodebuild -project Slide3Expenses.xcodeproj -scheme Slide3Expenses \
+xcodebuild -project Xpens.xcodeproj -scheme Xpens \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 
 # Run all tests (57 tests across 11 suites)
-xcodebuild -project Slide3Expenses.xcodeproj -scheme Slide3Expenses \
+xcodebuild -project Xpens.xcodeproj -scheme Xpens \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
 ```
 
-Tests use Swift Testing framework (`import Testing`, `@Suite`, `@Test`, `#expect`). Test files are in `Slide3ExpensesTests/`.
+Tests use Swift Testing framework (`import Testing`, `@Suite`, `@Test`, `#expect`). Test files are in `XpensTests/`.
 
 ## Architecture
 

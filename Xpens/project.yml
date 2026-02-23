@@ -1,7 +1,7 @@
-name: Slide3Expenses
+name: Xpens
 
 options:
-  bundleIdPrefix: com.slide3
+  bundleIdPrefix: com.xpens
   deploymentTarget:
     iOS: "18.0"
   xcodeVersion: "16.0"
@@ -13,15 +13,15 @@ settings:
     IPHONEOS_DEPLOYMENT_TARGET: "18.0"
 
 targets:
-  Slide3Expenses:
+  Xpens:
     type: application
     platform: iOS
     sources:
-      - Slide3Expenses
+      - Xpens
     settings:
       base:
         INFOPLIST_GENERATION_MODE: GeneratedFile
-        PRODUCT_BUNDLE_IDENTIFIER: com.slide3.expenses
+        PRODUCT_BUNDLE_IDENTIFIER: com.xpens.app
         MARKETING_VERSION: "1.0"
         CURRENT_PROJECT_VERSION: "1"
         GENERATE_INFOPLIST_FILE: true
@@ -35,16 +35,16 @@ targets:
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SWIFT_EMIT_LOC_STRINGS: true
 
-  Slide3ExpensesTests:
+  XpensTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - Slide3ExpensesTests
+      - XpensTests
     dependencies:
-      - target: Slide3Expenses
+      - target: Xpens
     settings:
       base:
         GENERATE_INFOPLIST_FILE: true
-        PRODUCT_BUNDLE_IDENTIFIER: com.slide3.expenses.tests
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Slide3Expenses.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Slide3Expenses"
+        PRODUCT_BUNDLE_IDENTIFIER: com.xpens.app.tests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Xpens.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Xpens"
         BUNDLE_LOADER: "$(TEST_HOST)"

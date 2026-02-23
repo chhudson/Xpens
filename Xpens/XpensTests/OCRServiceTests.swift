@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import Slide3Expenses
+@testable import Xpens
 
 @Suite("OCRService")
 @MainActor

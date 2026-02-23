@@ -1,6 +1,6 @@
-# Slide3 Expenses
+# Xpens
 
-An iOS app for tracking business expenses with receipt OCR scanning. Built for Slide3 employees to capture, categorize, and export expenses while traveling — but useful for anyone managing receipts and expense reports.
+An iOS app for tracking business expenses with receipt OCR scanning. Capture, categorize, and export expenses while traveling — useful for anyone managing receipts and expense reports.
 
 ## Features
 
@@ -21,14 +21,14 @@ An iOS app for tracking business expenses with receipt OCR scanning. Built for S
 
 ```bash
 # Clone the repo
-git clone git@github.com:chhudson/Slide3Expenses.git
-cd Slide3Expenses
+git clone git@github.com:chhudson/Xpens.git
+cd Xpens
 
 # Generate the Xcode project
-cd Slide3Expenses && xcodegen generate
+cd Xpens && xcodegen generate
 
 # Open in Xcode
-open Slide3Expenses.xcodeproj
+open Xpens.xcodeproj
 ```
 
 Build and run on a simulator or device (Cmd+R).
@@ -36,8 +36,8 @@ Build and run on a simulator or device (Cmd+R).
 ## Running Tests
 
 ```bash
-# From the Slide3Expenses/ directory
-xcodebuild -project Slide3Expenses.xcodeproj -scheme Slide3Expenses \
+# From the Xpens/ directory
+xcodebuild -project Xpens.xcodeproj -scheme Xpens \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
 ```
 
@@ -46,15 +46,15 @@ xcodebuild -project Slide3Expenses.xcodeproj -scheme Slide3Expenses \
 ## Project Structure
 
 ```
-Slide3Expenses/
+Xpens/
 ├── project.yml                  # XcodeGen spec (source of truth for project config)
-├── Slide3Expenses/              # App source
+├── Xpens/                       # App source
 │   ├── Models/                  # Expense, ExpenseCategory, OCRResult
 │   ├── Services/                # OCR, image storage, CSV/PDF export
 │   ├── Views/                   # SwiftUI views organized by feature
 │   ├── Utilities/               # CurrencyFormatter, Date extensions
 │   └── Assets.xcassets/
-└── Slide3ExpensesTests/         # Unit tests (Swift Testing)
+└── XpensTests/                  # Unit tests (Swift Testing)
 ```
 
 ## Tech Stack

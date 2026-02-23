@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import Slide3Expenses
+@testable import Xpens
 
 @Suite("Date Extensions")
 struct DateFormatterTests {

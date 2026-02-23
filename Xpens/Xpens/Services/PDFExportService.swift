@@ -102,7 +102,7 @@ enum PDFExportService {
 
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent(
-                "Slide3_Report_\(fileTimestamp()).pdf"
+                "Xpens_Report_\(fileTimestamp()).pdf"
             )
         try data.write(to: url)
         return url
@@ -120,7 +120,7 @@ enum PDFExportService {
         var y = margin
 
         // Title
-        let title: NSString = "Slide3 Expense Report"
+        let title: NSString = "Xpens Expense Report"
         title.draw(
             in: CGRect(x: margin, y: y, width: contentWidth, height: 28),
             withAttributes: [.font: titleFont]
