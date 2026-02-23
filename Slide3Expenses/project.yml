@@ -1,0 +1,50 @@
+name: Slide3Expenses
+
+options:
+  bundleIdPrefix: com.slide3
+  deploymentTarget:
+    iOS: "18.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: false
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+
+targets:
+  Slide3Expenses:
+    type: application
+    platform: iOS
+    sources:
+      - Slide3Expenses
+    settings:
+      base:
+        INFOPLIST_GENERATION_MODE: GeneratedFile
+        PRODUCT_BUNDLE_IDENTIFIER: com.slide3.expenses
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
+        INFOPLIST_KEY_NSCameraUsageDescription: "We need camera access to scan receipts"
+        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "We need photo library access to attach receipt images"
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        SWIFT_EMIT_LOC_STRINGS: true
+
+  Slide3ExpensesTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - Slide3ExpensesTests
+    dependencies:
+      - target: Slide3Expenses
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
+        PRODUCT_BUNDLE_IDENTIFIER: com.slide3.expenses.tests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Slide3Expenses.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Slide3Expenses"
+        BUNDLE_LOADER: "$(TEST_HOST)"
