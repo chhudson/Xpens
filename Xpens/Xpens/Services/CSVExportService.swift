@@ -4,17 +4,19 @@ enum CSVExportService {
 
     /// Generates an RFC 4180 compliant CSV string from an array of expenses.
     static func generateCSV(from expenses: [Expense]) -> String {
-        let header = "Date,Category,Merchant,Client,Amount,Notes"
+        let header = "Date,Category,Merchant,Client,Amount,Notes,Tags"
         let rows = expenses.map { expense in
             let date = expense.date.formatted(.iso8601.year().month().day())
             let amount = "\(expense.amount)"
+            let tags = (expense.tags ?? []).map(\.name).joined(separator: ", ")
             return [
                 date,
                 expense.category?.name ?? "Uncategorized",
                 expense.merchant,
                 expense.client,
                 amount,
-                expense.notes
+                expense.notes,
+                tags
             ]
             .map { escapeField($0) }
             .joined(separator: ",")

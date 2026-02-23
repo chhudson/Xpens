@@ -204,7 +204,38 @@ enum PDFExportService {
             )
             y += 14
         }
+
+        // Tag breakdown
+        let tagGroups = buildTagBreakdown(expenses: expenses)
+        if !tagGroups.isEmpty {
+            y += 8
+            ("By Tag:" as NSString).draw(
+                in: CGRect(x: margin, y: y, width: contentWidth, height: 16),
+                withAttributes: [.font: totalFont]
+            )
+            y += 16
+            for (tagName, total, count) in tagGroups {
+                let line = "  \(tagName): \(CurrencyFormatter.string(from: total)) (\(count))"
+                (line as NSString).draw(
+                    in: CGRect(x: margin, y: y, width: contentWidth, height: 14),
+                    withAttributes: [.font: bodyFont, .foregroundColor: UIColor.darkGray]
+                )
+                y += 14
+            }
+        }
+
         return y
+    }
+
+    private static func buildTagBreakdown(expenses: [Expense]) -> [(String, Decimal, Int)] {
+        var tagTotals: [String: (Decimal, Int)] = [:]
+        for expense in expenses {
+            for tag in expense.tags ?? [] {
+                let existing = tagTotals[tag.name] ?? (.zero, 0)
+                tagTotals[tag.name] = (existing.0 + expense.amount, existing.1 + 1)
+            }
+        }
+        return tagTotals.sorted { $0.key < $1.key }.map { ($0.key, $0.value.0, $0.value.1) }
     }
 
     // MARK: - Table Drawing

@@ -6,9 +6,12 @@ struct ReportsView: View {
 
     @Query(sort: \Expense.date, order: .reverse) private var allExpenses: [Expense]
 
+    @Query(sort: \Tag.name) private var allTags: [Tag]
+
     @State private var startDate = Date()
     @State private var endDate = Date()
     @State private var selectedClient: String?
+    @State private var selectedTagIDs: Set<UUID> = []
 
     private var clients: [String] {
         Array(Set(allExpenses.map(\.client)))
@@ -26,7 +29,9 @@ struct ReportsView: View {
             let inRange = expense.date >= startOfDay && expense.date < endOfDay
             let matchesClient = selectedClient == nil
                 || expense.client == selectedClient
-            return inRange && matchesClient
+            let matchesTags = selectedTagIDs.isEmpty
+                || !(expense.tags ?? []).filter { selectedTagIDs.contains($0.id) }.isEmpty
+            return inRange && matchesClient && matchesTags
         }
     }
 
@@ -60,6 +65,33 @@ struct ReportsView: View {
                             Text("All Clients").tag(nil as String?)
                             ForEach(clients, id: \.self) { client in
                                 Text(client).tag(client as String?)
+                            }
+                        }
+                    }
+                }
+
+                if !allTags.isEmpty {
+                    Section("Tags") {
+                        ForEach(allTags) { tag in
+                            Button {
+                                if selectedTagIDs.contains(tag.id) {
+                                    selectedTagIDs.remove(tag.id)
+                                } else {
+                                    selectedTagIDs.insert(tag.id)
+                                }
+                            } label: {
+                                HStack {
+                                    Circle()
+                                        .fill(tag.swiftUIColor)
+                                        .frame(width: 10, height: 10)
+                                    Text(tag.name)
+                                        .foregroundStyle(.primary)
+                                    Spacer()
+                                    if selectedTagIDs.contains(tag.id) {
+                                        Image(systemName: "checkmark")
+                                            .foregroundStyle(.blue)
+                                    }
+                                }
                             }
                         }
                     }

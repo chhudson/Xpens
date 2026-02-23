@@ -10,7 +10,7 @@ struct CSVExportServiceTests {
     @Test("empty expense list produces header only")
     func emptyList() {
         let csv = CSVExportService.generateCSV(from: [])
-        #expect(csv == "Date,Category,Merchant,Client,Amount,Notes")
+        #expect(csv == "Date,Category,Merchant,Client,Amount,Notes,Tags")
     }
 
     @Test("single expense produces correct row")
@@ -27,7 +27,7 @@ struct CSVExportServiceTests {
         let csv = CSVExportService.generateCSV(from: [expense])
         let lines = csv.components(separatedBy: "\r\n")
         #expect(lines.count == 2)
-        #expect(lines[0] == "Date,Category,Merchant,Client,Amount,Notes")
+        #expect(lines[0] == "Date,Category,Merchant,Client,Amount,Notes,Tags")
         #expect(lines[1].contains("Food"))
         #expect(lines[1].contains("Chipotle"))
         #expect(lines[1].contains("25.5"))
@@ -69,6 +69,26 @@ struct CSVExportServiceTests {
         let csv = CSVExportService.generateCSV(from: expenses)
         let crlfCount = csv.components(separatedBy: "\r\n").count - 1
         #expect(crlfCount == 2) // header + 2 rows = 2 separators
+    }
+
+    @Test("includes Tags column in header")
+    func tagsColumnInHeader() {
+        let csv = CSVExportService.generateCSV(from: [])
+        #expect(csv.contains("Tags"))
+    }
+
+    @Test("expense with tags includes comma-separated tag names")
+    func expenseWithTags() {
+        let tag1 = Tag(name: "tax-deductible", color: "#4CAF50")
+        let tag2 = Tag(name: "reimbursable", color: "#2196F3")
+        let expense = Expense(
+            tags: [tag1, tag2],
+            amount: 50.00,
+            merchant: "Office Depot"
+        )
+        let csv = CSVExportService.generateCSV(from: [expense])
+        // Tags column should contain both tag names
+        #expect(csv.contains("tax-deductible") && csv.contains("reimbursable"))
     }
 
     @Test("exportToFile writes file with UTF-8 BOM")
