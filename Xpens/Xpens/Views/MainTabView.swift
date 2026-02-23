@@ -14,6 +14,10 @@ struct MainTabView: View {
             Tab("Reports", systemImage: "chart.bar") {
                 ReportsView()
             }
+
+            Tab("Settings", systemImage: "gear") {
+                SettingsView()
+            }
         }
     }
 }

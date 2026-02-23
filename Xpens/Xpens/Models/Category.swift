@@ -11,6 +11,8 @@ final class Category {
     var sortOrder: Int
     var isDefault: Bool
 
+    @Relationship(inverse: \Expense.category) var expenses: [Expense]?
+
     var swiftUIColor: Color {
         Color(hex: color)
     }
