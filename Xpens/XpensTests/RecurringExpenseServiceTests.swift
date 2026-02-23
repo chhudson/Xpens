@@ -7,7 +7,7 @@ import SwiftData
 struct RecurringExpenseServiceTests {
 
     private func makeContext() throws -> ModelContext {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let config = ModelConfiguration(isStoredInMemoryOnly: true, cloudKitDatabase: .none)
         let container = try ModelContainer(
             for: Expense.self, Category.self, Tag.self, UserPreferences.self,
             configurations: config

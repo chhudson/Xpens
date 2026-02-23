@@ -6,7 +6,11 @@ struct XpensApp: App {
     let container: ModelContainer
 
     init() {
-        let container = try! ModelContainer(for: Expense.self, Category.self, Tag.self, UserPreferences.self)
+        let config = ModelConfiguration(cloudKitDatabase: .none)
+        let container = try! ModelContainer(
+            for: Expense.self, Category.self, Tag.self, UserPreferences.self,
+            configurations: config
+        )
         self.container = container
 
         #if DEBUG
