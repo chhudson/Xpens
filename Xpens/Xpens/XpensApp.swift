@@ -7,6 +7,6 @@ struct XpensApp: App {
         WindowGroup {
             MainTabView()
         }
-        .modelContainer(for: Expense.self)
+        .modelContainer(for: [Expense.self, Category.self, Tag.self, UserPreferences.self])
     }
 }

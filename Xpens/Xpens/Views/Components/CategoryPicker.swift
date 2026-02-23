@@ -1,7 +1,9 @@
 import SwiftUI
+import SwiftData
 
 struct CategoryPicker: View {
-    @Binding var selection: ExpenseCategory
+    @Binding var selection: Category?
+    @Query(sort: \Category.sortOrder) private var categories: [Category]
 
     private let columns = [
         GridItem(.flexible()),
@@ -10,10 +12,10 @@ struct CategoryPicker: View {
 
     var body: some View {
         LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(ExpenseCategory.allCases) { category in
+            ForEach(categories) { category in
                 CategoryCard(
                     category: category,
-                    isSelected: selection == category
+                    isSelected: selection?.id == category.id
                 )
                 .onTapGesture { selection = category }
             }
@@ -22,28 +24,28 @@ struct CategoryPicker: View {
 }
 
 private struct CategoryCard: View {
-    let category: ExpenseCategory
+    let category: Category
     let isSelected: Bool
 
     var body: some View {
         VStack(spacing: 8) {
             Image(systemName: category.icon)
                 .font(.title2)
-            Text(category.displayName)
+            Text(category.name)
                 .font(.caption)
                 .fontWeight(.medium)
         }
         .frame(maxWidth: .infinity, minHeight: 72)
         .background(
             isSelected
-                ? category.color.opacity(0.15)
+                ? category.swiftUIColor.opacity(0.15)
                 : Color(.secondarySystemBackground)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(isSelected ? category.color : .clear, lineWidth: 2)
+                .stroke(isSelected ? category.swiftUIColor : .clear, lineWidth: 2)
         )
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        .foregroundStyle(isSelected ? category.color : .primary)
+        .foregroundStyle(isSelected ? category.swiftUIColor : .primary)
     }
 }

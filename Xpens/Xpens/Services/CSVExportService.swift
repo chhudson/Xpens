@@ -10,7 +10,7 @@ enum CSVExportService {
             let amount = "\(expense.amount)"
             return [
                 date,
-                expense.category.displayName,
+                expense.category?.name ?? "Uncategorized",
                 expense.merchant,
                 expense.client,
                 amount,

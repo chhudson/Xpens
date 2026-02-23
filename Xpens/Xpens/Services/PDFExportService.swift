@@ -60,13 +60,15 @@ enum PDFExportService {
             cursorY = drawTableHeader(cursorY: cursorY)
 
             // -- Group by category --
-            let grouped = Dictionary(grouping: expenses) { $0.category }
-            let sortedCategories = ExpenseCategory.allCases.filter {
-                grouped[$0] != nil
+            let grouped = Dictionary(grouping: expenses) { $0.category?.id }
+            let sortedGroups = grouped.sorted { lhs, rhs in
+                let lhsOrder = lhs.value.first?.category?.sortOrder ?? Int.max
+                let rhsOrder = rhs.value.first?.category?.sortOrder ?? Int.max
+                return lhsOrder < rhsOrder
             }
 
-            for category in sortedCategories {
-                guard let items = grouped[category] else { continue }
+            for (_, items) in sortedGroups {
+                let categoryName = items.first?.category?.name ?? "Uncategorized"
                 let sorted = items.sorted { $0.date < $1.date }
 
                 for expense in sorted {
@@ -87,7 +89,7 @@ enum PDFExportService {
                 // Category subtotal
                 let subtotal = items.reduce(Decimal.zero) { $0 + $1.amount }
                 cursorY = drawSubtotal(
-                    label: "\(category.displayName) Subtotal",
+                    label: "\(categoryName) Subtotal",
                     amount: subtotal,
                     cursorY: cursorY
                 )
@@ -186,11 +188,16 @@ enum PDFExportService {
 
         y += 4
         // Category breakdown
-        let grouped = Dictionary(grouping: expenses) { $0.category }
-        for category in ExpenseCategory.allCases {
-            guard let items = grouped[category] else { continue }
+        let grouped = Dictionary(grouping: expenses) { $0.category?.id }
+        let sortedGroups = grouped.sorted { lhs, rhs in
+            let lhsOrder = lhs.value.first?.category?.sortOrder ?? Int.max
+            let rhsOrder = rhs.value.first?.category?.sortOrder ?? Int.max
+            return lhsOrder < rhsOrder
+        }
+        for (_, items) in sortedGroups {
+            let categoryName = items.first?.category?.name ?? "Uncategorized"
             let subtotal = items.reduce(Decimal.zero) { $0 + $1.amount }
-            let line = "  \(category.displayName): \(CurrencyFormatter.string(from: subtotal)) (\(items.count))"
+            let line = "  \(categoryName): \(CurrencyFormatter.string(from: subtotal)) (\(items.count))"
             (line as NSString).draw(
                 in: CGRect(x: margin, y: y, width: contentWidth, height: 14),
                 withAttributes: [.font: bodyFont, .foregroundColor: UIColor.darkGray]
@@ -226,7 +233,7 @@ enum PDFExportService {
     ) -> CGFloat {
         let values = [
             expense.date.displayString,
-            expense.category.displayName,
+            expense.category?.name ?? "Uncategorized",
             expense.merchant,
             expense.client,
             CurrencyFormatter.string(from: expense.amount)

@@ -50,17 +50,17 @@ struct ExpenseDetailView: View {
     private var headerSection: some View {
         Section {
             HStack {
-                Image(systemName: expense.category.icon)
+                Image(systemName: expense.category?.icon ?? "questionmark")
                     .font(.title2)
-                    .foregroundStyle(expense.category.color)
+                    .foregroundStyle(expense.category?.swiftUIColor ?? .gray)
                     .frame(width: 44, height: 44)
-                    .background(expense.category.color.opacity(0.12))
+                    .background((expense.category?.swiftUIColor ?? .gray).opacity(0.12))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(expense.merchant)
                         .font(.headline)
-                    Text(expense.category.displayName)
+                    Text(expense.category?.name ?? "Uncategorized")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
@@ -85,7 +85,7 @@ struct ExpenseDetailView: View {
 
             DetailRow(
                 label: "Category",
-                value: expense.category.displayName
+                value: expense.category?.name ?? "Uncategorized"
             )
         }
     }
@@ -162,7 +162,7 @@ struct ExpenseEditView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var date: Date
-    @State private var category: ExpenseCategory
+    @State private var category: Category?
     @State private var amount: Decimal?
     @State private var merchant: String
     @State private var client: String

@@ -2,6 +2,8 @@ import Testing
 import Foundation
 @testable import Xpens
 
+private typealias ExpenseCategory = Xpens.Category
+
 @Suite("CSVExportService")
 struct CSVExportServiceTests {
 
@@ -13,9 +15,10 @@ struct CSVExportServiceTests {
 
     @Test("single expense produces correct row")
     func singleExpense() {
+        let category = ExpenseCategory(name: "Food", icon: "fork.knife", color: "#4CAF50", sortOrder: 3)
         let expense = Expense(
             date: Date(timeIntervalSince1970: 1_700_000_000), // 2023-11-14
-            category: .food,
+            category: category,
             amount: 25.50,
             merchant: "Chipotle",
             client: "Personal",
@@ -28,6 +31,16 @@ struct CSVExportServiceTests {
         #expect(lines[1].contains("Food"))
         #expect(lines[1].contains("Chipotle"))
         #expect(lines[1].contains("25.5"))
+    }
+
+    @Test("expense without category shows Uncategorized")
+    func uncategorizedExpense() {
+        let expense = Expense(
+            amount: 10.00,
+            merchant: "Test"
+        )
+        let csv = CSVExportService.generateCSV(from: [expense])
+        #expect(csv.contains("Uncategorized"))
     }
 
     @Test("fields with commas are quoted")

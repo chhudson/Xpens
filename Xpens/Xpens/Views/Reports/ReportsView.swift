@@ -34,13 +34,14 @@ struct ReportsView: View {
         filteredExpenses.reduce(.zero) { $0 + $1.amount }
     }
 
-    private var categoryData: [(ExpenseCategory, Decimal)] {
-        let grouped = Dictionary(grouping: filteredExpenses) { $0.category }
-        return ExpenseCategory.allCases.compactMap { category in
-            guard let items = grouped[category] else { return nil }
+    private var categoryData: [(Category, Decimal)] {
+        let grouped = Dictionary(grouping: filteredExpenses) { $0.category?.id }
+        return grouped.compactMap { (_, items) in
+            guard let category = items.first?.category else { return nil }
             let sum = items.reduce(Decimal.zero) { $0 + $1.amount }
             return (category, sum)
         }
+        .sorted { $0.0.sortOrder < $1.0.sortOrder }
     }
 
     var body: some View {
@@ -82,12 +83,12 @@ struct ReportsView: View {
 
                 if !categoryData.isEmpty {
                     Section("By Category") {
-                        Chart(categoryData, id: \.0) { category, amount in
+                        Chart(categoryData, id: \.0.id) { category, amount in
                             BarMark(
                                 x: .value("Amount", (amount as NSDecimalNumber).doubleValue),
-                                y: .value("Category", category.displayName)
+                                y: .value("Category", category.name)
                             )
-                            .foregroundStyle(category.color)
+                            .foregroundStyle(category.swiftUIColor)
                             .annotation(position: .trailing, alignment: .leading) {
                                 Text(CurrencyFormatter.string(from: amount))
                                     .font(.caption2)

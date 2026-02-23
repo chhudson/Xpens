@@ -6,7 +6,7 @@ struct ExpenseListView: View {
     @Query(sort: \Expense.date, order: .reverse) private var allExpenses: [Expense]
 
     @State private var searchText = ""
-    @State private var selectedCategory: ExpenseCategory?
+    @State private var selectedCategory: Category?
     @State private var selectedClient = ""
     @State private var sortOrder: ExpenseSortOrder = .dateDescending
     @State private var showingFilter = false
@@ -64,7 +64,7 @@ struct ExpenseListView: View {
         }
 
         if let category = selectedCategory {
-            result = result.filter { $0.category == category }
+            result = result.filter { $0.category?.id == category.id }
         }
 
         if !selectedClient.isEmpty {

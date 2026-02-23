@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 enum ExpenseSortOrder: String, CaseIterable, Identifiable {
     case dateDescending = "Newest First"
@@ -10,10 +11,11 @@ enum ExpenseSortOrder: String, CaseIterable, Identifiable {
 }
 
 struct ExpenseFilterView: View {
-    @Binding var selectedCategory: ExpenseCategory?
+    @Binding var selectedCategory: Category?
     @Binding var selectedClient: String
     @Binding var sortOrder: ExpenseSortOrder
     @Environment(\.dismiss) private var dismiss
+    @Query(sort: \Category.sortOrder) private var categories: [Category]
 
     let availableClients: [String]
 
@@ -44,15 +46,15 @@ struct ExpenseFilterView: View {
             }
             .foregroundStyle(selectedCategory == nil ? .primary : .secondary)
 
-            ForEach(ExpenseCategory.allCases) { cat in
+            ForEach(categories) { cat in
                 Button {
                     selectedCategory = cat
                 } label: {
                     HStack {
-                        Label(cat.displayName, systemImage: cat.icon)
-                            .foregroundStyle(cat.color)
+                        Label(cat.name, systemImage: cat.icon)
+                            .foregroundStyle(cat.swiftUIColor)
                         Spacer()
-                        if selectedCategory == cat {
+                        if selectedCategory?.id == cat.id {
                             Image(systemName: "checkmark")
                                 .foregroundStyle(.blue)
                         }

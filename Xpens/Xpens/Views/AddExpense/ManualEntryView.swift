@@ -6,7 +6,7 @@ struct ManualEntryView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var date: Date
-    @State private var category: ExpenseCategory = .food
+    @State private var category: Category?
     @State private var amount: Decimal?
     @State private var merchant: String
     @State private var client: String = ""

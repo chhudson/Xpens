@@ -13,13 +13,14 @@ struct ReportPreviewView: View {
         expenses.reduce(.zero) { $0 + $1.amount }
     }
 
-    private var categoryBreakdown: [(ExpenseCategory, Decimal, Int)] {
-        let grouped = Dictionary(grouping: expenses) { $0.category }
-        return ExpenseCategory.allCases.compactMap { category in
-            guard let items = grouped[category] else { return nil }
+    private var categoryBreakdown: [(Category, Decimal, Int)] {
+        let grouped = Dictionary(grouping: expenses) { $0.category?.id }
+        return grouped.compactMap { (_, items) in
+            guard let category = items.first?.category else { return nil }
             let sum = items.reduce(Decimal.zero) { $0 + $1.amount }
             return (category, sum, items.count)
         }
+        .sorted { $0.0.sortOrder < $1.0.sortOrder }
     }
 
     var body: some View {
@@ -46,12 +47,12 @@ struct ReportPreviewView: View {
             }
 
             Section("By Category") {
-                ForEach(categoryBreakdown, id: \.0) { category, amount, count in
+                ForEach(categoryBreakdown, id: \.0.id) { category, amount, count in
                     HStack {
                         Image(systemName: category.icon)
-                            .foregroundStyle(category.color)
+                            .foregroundStyle(category.swiftUIColor)
                             .frame(width: 24)
-                        Text(category.displayName)
+                        Text(category.name)
                         Spacer()
                         Text("\(count)")
                             .foregroundStyle(.secondary)

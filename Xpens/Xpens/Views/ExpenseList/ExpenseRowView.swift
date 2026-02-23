@@ -14,11 +14,11 @@ struct ExpenseRowView: View {
     }
 
     private var categoryIcon: some View {
-        Image(systemName: expense.category.icon)
+        Image(systemName: expense.category?.icon ?? "questionmark")
             .font(.title3)
-            .foregroundStyle(expense.category.color)
+            .foregroundStyle(expense.category?.swiftUIColor ?? .gray)
             .frame(width: 36, height: 36)
-            .background(expense.category.color.opacity(0.12))
+            .background((expense.category?.swiftUIColor ?? .gray).opacity(0.12))
             .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
