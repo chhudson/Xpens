@@ -37,6 +37,14 @@ struct SettingsView: View {
                     }
                 }
 
+                Section("Backup") {
+                    NavigationLink {
+                        BackupView()
+                    } label: {
+                        Label("Backup & Restore", systemImage: "arrow.clockwise.icloud")
+                    }
+                }
+
                 Section("About") {
                     HStack {
                         Text("Version")
