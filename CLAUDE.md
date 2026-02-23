@@ -21,12 +21,20 @@ cd Xpens && xcodegen generate
 xcodebuild -project Xpens.xcodeproj -scheme Xpens \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 
-# Run all tests (82 tests across 14 suites)
+# Run all tests (94 tests: 82 unit + 12 UI)
 xcodebuild -project Xpens.xcodeproj -scheme Xpens \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
+
+# Run only unit tests
+xcodebuild -project Xpens.xcodeproj -scheme Xpens \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:XpensTests test
+
+# Run only UI tests
+xcodebuild -project Xpens.xcodeproj -scheme Xpens \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -only-testing:XpensUITests test
 ```
 
-Tests use Swift Testing framework (`import Testing`, `@Suite`, `@Test`, `#expect`). Test files are in `XpensTests/`.
+Unit tests use Swift Testing framework (`import Testing`, `@Suite`, `@Test`, `#expect`). Test files are in `XpensTests/`. UI tests use XCUITest framework. Test files are in `XpensUITests/`. Centralized accessibility identifiers in `Utilities/AccessibilityID.swift` are shared between views and UI tests. Launch arguments `--uitesting-reset` and `--uitesting-skip-onboarding` control app state for UI tests.
 
 ## Architecture
 
