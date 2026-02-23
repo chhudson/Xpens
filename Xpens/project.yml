@@ -12,6 +12,18 @@ settings:
     SWIFT_VERSION: "6.0"
     IPHONEOS_DEPLOYMENT_TARGET: "18.0"
 
+schemes:
+  Xpens:
+    build:
+      targets:
+        Xpens: all
+        XpensTests: [test]
+        XpensUITests: [test]
+    test:
+      targets:
+        - XpensTests
+        - XpensUITests
+
 targets:
   Xpens:
     type: application
