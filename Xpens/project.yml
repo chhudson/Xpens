@@ -49,3 +49,16 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.xpens.app.tests
         TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Xpens.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Xpens"
         BUNDLE_LOADER: "$(TEST_HOST)"
+
+  XpensUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - XpensUITests
+    dependencies:
+      - target: Xpens
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
+        PRODUCT_BUNDLE_IDENTIFIER: com.xpens.app.uitests
+        TEST_TARGET_NAME: Xpens
