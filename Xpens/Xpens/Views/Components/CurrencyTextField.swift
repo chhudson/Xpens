@@ -11,6 +11,7 @@ struct CurrencyTextField: View {
                 .foregroundStyle(.secondary)
             TextField(title, text: $text)
                 .keyboardType(.decimalPad)
+                .accessibilityIdentifier(AccessibilityID.ManualEntry.amountField)
                 .onChange(of: text) { _, newValue in
                     amount = CurrencyFormatter.decimal(from: newValue)
                 }
