@@ -6,6 +6,7 @@ struct ReportPreviewView: View {
     let startDate: Date
     let endDate: Date
 
+    @State private var selectedFormat: ZipExportService.ReportFormat = .pdf
     @State private var errorMessage: String?
     @State private var shareItem: ShareItem?
 
@@ -63,17 +64,20 @@ struct ReportPreviewView: View {
             }
 
             Section {
-                Button {
-                    exportPDF()
-                } label: {
-                    Label("Export PDF", systemImage: "doc.richtext")
+                Picker("Format", selection: $selectedFormat) {
+                    ForEach(ZipExportService.ReportFormat.allCases, id: \.self) { format in
+                        Text(format.rawValue).tag(format)
+                    }
                 }
+                .pickerStyle(.segmented)
+                .accessibilityIdentifier(AccessibilityID.Reports.formatPicker)
 
                 Button {
-                    exportCSV()
+                    exportZip()
                 } label: {
-                    Label("Export CSV", systemImage: "tablecells")
+                    Label("Export with Receipts", systemImage: "arrow.down.doc.fill")
                 }
+                .accessibilityIdentifier(AccessibilityID.Reports.exportButton)
             }
 
             if let errorMessage {
@@ -91,27 +95,18 @@ struct ReportPreviewView: View {
         }
     }
 
-    private func exportPDF() {
+    private func exportZip() {
         do {
-            let url = try PDFExportService.exportToFile(
+            let url = try ZipExportService.exportToFile(
                 expenses: expenses,
                 startDate: startDate,
-                endDate: endDate
+                endDate: endDate,
+                format: selectedFormat
             )
             shareItem = ShareItem(url: url)
             errorMessage = nil
         } catch {
-            errorMessage = "PDF export failed: \(error.localizedDescription)"
-        }
-    }
-
-    private func exportCSV() {
-        do {
-            let url = try CSVExportService.exportToFile(expenses: expenses)
-            shareItem = ShareItem(url: url)
-            errorMessage = nil
-        } catch {
-            errorMessage = "CSV export failed: \(error.localizedDescription)"
+            errorMessage = "Export failed: \(error.localizedDescription)"
         }
     }
 }

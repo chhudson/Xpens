@@ -7,6 +7,11 @@ options:
   xcodeVersion: "16.0"
   generateEmptyDirectories: false
 
+packages:
+  ZIPFoundation:
+    url: https://github.com/weichsel/ZIPFoundation
+    from: "0.9.19"
+
 settings:
   base:
     SWIFT_VERSION: "6.0"
@@ -30,6 +35,8 @@ targets:
     platform: iOS
     sources:
       - Xpens
+    dependencies:
+      - package: ZIPFoundation
     settings:
       base:
         INFOPLIST_GENERATION_MODE: GeneratedFile
@@ -56,6 +63,7 @@ targets:
       - XpensTests
     dependencies:
       - target: Xpens
+      - package: ZIPFoundation
     settings:
       base:
         GENERATE_INFOPLIST_FILE: true

@@ -51,6 +51,8 @@ enum AccessibilityID {
         static let viewReportButton = "reports-view-report"
         static let totalAmount = "reports-total-amount"
         static let categoryChart = "reports-category-chart"
+        static let formatPicker = "reports-format-picker"
+        static let exportButton = "reports-export-button"
     }
 
     enum Settings {
