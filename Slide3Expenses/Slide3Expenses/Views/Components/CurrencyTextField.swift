@@ -17,7 +17,10 @@ struct CurrencyTextField: View {
         }
         .onAppear {
             if let amount {
-                text = "\(amount)"
+                let formatter = NumberFormatter()
+                formatter.minimumFractionDigits = 2
+                formatter.maximumFractionDigits = 2
+                text = formatter.string(from: amount as NSDecimalNumber) ?? "\(amount)"
             }
         }
     }

@@ -10,13 +10,3 @@ struct Slide3ExpensesApp: App {
         .modelContainer(for: Expense.self)
     }
 }
-
-struct ContentView: View {
-    var body: some View {
-        NavigationStack {
-            Text("Slide3 Expenses")
-                .font(.largeTitle)
-                .navigationTitle("Expenses")
-        }
-    }
-}

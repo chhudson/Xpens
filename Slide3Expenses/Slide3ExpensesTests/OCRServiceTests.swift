@@ -3,6 +3,7 @@ import Testing
 @testable import Slide3Expenses
 
 @Suite("OCRService")
+@MainActor
 struct OCRServiceTests {
 
     private var sut: OCRService { OCRService.shared }
@@ -10,6 +11,7 @@ struct OCRServiceTests {
     // MARK: - Amount Extraction
 
     @Suite("Amount Extraction")
+    @MainActor
     struct AmountExtraction {
         private var sut: OCRService { OCRService.shared }
 
@@ -94,6 +96,7 @@ struct OCRServiceTests {
     // MARK: - Date Extraction
 
     @Suite("Date Extraction")
+    @MainActor
     struct DateExtraction {
         private var sut: OCRService { OCRService.shared }
 
@@ -128,6 +131,7 @@ struct OCRServiceTests {
     // MARK: - Merchant Extraction
 
     @Suite("Merchant Extraction")
+    @MainActor
     struct MerchantExtraction {
         private var sut: OCRService { OCRService.shared }
 

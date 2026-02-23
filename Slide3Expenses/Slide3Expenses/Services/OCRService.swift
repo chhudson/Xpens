@@ -1,4 +1,4 @@
-import Vision
+@preconcurrency import Vision
 import UIKit
 
 @MainActor
@@ -20,7 +20,10 @@ final class OCRService {
 
     private nonisolated func performRecognition(on cgImage: CGImage) async throws -> [VNRecognizedTextObservation] {
         try await withCheckedThrowingContinuation { continuation in
+            var didResume = false
             let request = VNRecognizeTextRequest { request, error in
+                guard !didResume else { return }
+                didResume = true
                 if let error {
                     continuation.resume(throwing: error)
                     return
@@ -35,6 +38,8 @@ final class OCRService {
             do {
                 try handler.perform([request])
             } catch {
+                guard !didResume else { return }
+                didResume = true
                 continuation.resume(throwing: error)
             }
         }

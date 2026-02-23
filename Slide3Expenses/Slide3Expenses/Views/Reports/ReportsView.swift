@@ -19,10 +19,10 @@ struct ReportsView: View {
     private var filteredExpenses: [Expense] {
         allExpenses.filter { expense in
             let startOfDay = Calendar.current.startOfDay(for: startDate)
-            let endOfDay = Calendar.current.date(
+            guard let endOfDay = Calendar.current.date(
                 byAdding: .day, value: 1,
                 to: Calendar.current.startOfDay(for: endDate)
-            )!
+            ) else { return false }
             let inRange = expense.date >= startOfDay && expense.date < endOfDay
             let matchesClient = selectedClient == nil
                 || expense.client == selectedClient

@@ -4,12 +4,12 @@ options:
   bundleIdPrefix: com.slide3
   deploymentTarget:
     iOS: "18.0"
-  xcodeVersion: "15.0"
+  xcodeVersion: "16.0"
   generateEmptyDirectories: false
 
 settings:
   base:
-    SWIFT_VERSION: "5.9"
+    SWIFT_VERSION: "6.0"
     IPHONEOS_DEPLOYMENT_TARGET: "18.0"
 
 targets:

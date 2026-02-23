@@ -4,9 +4,43 @@ xcuserdata/
 DerivedData/
 *.xcworkspace/
 build/
+*.pbxuser
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+
+# Swift Package Manager
+.build/
+Package.resolved
+
+# Debug symbols
+*.dSYM.zip
+*.dSYM
+
+# Crash logs
+*.ips
+
+# Provisioning profiles
+*.mobileprovision
+*.provisionprofile
+
+# CocoaPods / Carthage (defensive)
+Pods/
+Carthage/
 
 # macOS
 .DS_Store
+.Spotlight-V100
+.Trashes
+._*
+
+# Temporary files
+*.swp
+*~
+*.orig
 
 # Claude Code
 .claude/
