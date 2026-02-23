@@ -117,19 +117,52 @@ struct ManualEntryView: View {
             return
         }
 
-        let expense = Expense(
-            date: date,
-            category: category,
-            tags: selectedTags.isEmpty ? nil : selectedTags,
-            amount: amount,
-            merchant: merchant.trimmingCharacters(in: .whitespaces),
-            client: client.trimmingCharacters(in: .whitespaces),
-            notes: notes.trimmingCharacters(in: .whitespaces),
-            receiptImagePath: receiptImagePath,
-            isRecurring: isRecurring,
-            recurrenceRule: isRecurring ? recurrenceRule : nil
-        )
-        modelContext.insert(expense)
+        let trimmedMerchant = merchant.trimmingCharacters(in: .whitespaces)
+        let trimmedClient = client.trimmingCharacters(in: .whitespaces)
+        let trimmedNotes = notes.trimmingCharacters(in: .whitespaces)
+
+        if isRecurring {
+            // Create the recurring template
+            let template = Expense(
+                date: date,
+                category: category,
+                tags: selectedTags.isEmpty ? nil : selectedTags,
+                amount: amount,
+                merchant: trimmedMerchant,
+                client: trimmedClient,
+                notes: trimmedNotes,
+                receiptImagePath: receiptImagePath,
+                isRecurring: true,
+                recurrenceRule: recurrenceRule
+            )
+            template.lastGeneratedDate = date
+            modelContext.insert(template)
+
+            // Also log the first occurrence as a regular expense
+            let firstOccurrence = Expense(
+                date: date,
+                category: category,
+                tags: selectedTags.isEmpty ? nil : selectedTags,
+                amount: amount,
+                merchant: trimmedMerchant,
+                client: trimmedClient,
+                notes: trimmedNotes,
+                receiptImagePath: receiptImagePath
+            )
+            modelContext.insert(firstOccurrence)
+        } else {
+            let expense = Expense(
+                date: date,
+                category: category,
+                tags: selectedTags.isEmpty ? nil : selectedTags,
+                amount: amount,
+                merchant: trimmedMerchant,
+                client: trimmedClient,
+                notes: trimmedNotes,
+                receiptImagePath: receiptImagePath
+            )
+            modelContext.insert(expense)
+        }
         dismiss()
     }
 }
