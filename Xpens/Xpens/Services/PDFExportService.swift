@@ -120,7 +120,7 @@ enum PDFExportService {
         var y = margin
 
         // Title
-        let title: NSString = "Xpens Expense Report"
+        let title: NSString = "Expense Report"
         title.draw(
             in: CGRect(x: margin, y: y, width: contentWidth, height: 28),
             withAttributes: [.font: titleFont]
