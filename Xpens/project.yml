@@ -39,6 +39,8 @@ targets:
       - package: ZIPFoundation
     settings:
       base:
+        DEVELOPMENT_TEAM: UM8YA6TAD4
+        CODE_SIGN_STYLE: Automatic
         INFOPLIST_GENERATION_MODE: GeneratedFile
         PRODUCT_BUNDLE_IDENTIFIER: com.xpens.app
         MARKETING_VERSION: "1.0"
