@@ -24,7 +24,10 @@ schemes:
         Xpens: all
         XpensTests: [test]
         XpensUITests: [test]
+    run:
+      storeKitConfiguration: Xpens/Configuration.storekit
     test:
+      storeKitConfiguration: Xpens/Configuration.storekit
       targets:
         - XpensTests
         - XpensUITests
