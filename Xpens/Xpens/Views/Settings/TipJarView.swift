@@ -3,6 +3,7 @@ import StoreKit
 
 struct TipJarView: View {
     @StateObject private var service = TipJarService()
+    @State private var loadingTimedOut = false
 
     var body: some View {
         VStack(spacing: 20) {
@@ -16,6 +17,12 @@ struct TipJarView: View {
         .navigationTitle("Tip Jar")
         .task {
             await service.loadProducts()
+            if service.products.isEmpty {
+                try? await Task.sleep(for: .seconds(5))
+                if service.products.isEmpty {
+                    loadingTimedOut = true
+                }
+            }
         }
     }
 
@@ -36,8 +43,13 @@ struct TipJarView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
 
-            if service.products.isEmpty {
+            if service.products.isEmpty && !loadingTimedOut {
                 ProgressView("Loading...")
+            } else if service.products.isEmpty && loadingTimedOut {
+                Text("Tips are not available right now. Please try again later.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
             } else {
                 VStack(spacing: 12) {
                     ForEach(service.products, id: \.id) { product in
