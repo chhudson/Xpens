@@ -48,4 +48,4 @@ Secondary: Business
 2026 Xpens
 
 ## Privacy Policy URL
-(already have — add URL here)
+https://chhudson.github.io/Xpens/privacy-policy
