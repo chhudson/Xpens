@@ -37,6 +37,50 @@ struct XpensApp: App {
                 try? seedContext.save()
             }
         }
+        if CommandLine.arguments.contains("--uitesting-seed-screenshots") {
+            let ctx = container.mainContext
+            let categories = (try? ctx.fetch(FetchDescriptor<Category>())) ?? []
+            func cat(_ name: String) -> Category? {
+                categories.first { $0.name == name }
+            }
+            let cal = Calendar.current
+            let now = Date.now
+            let tag1 = Tag(name: "tax-deductible", color: "#2196F3")
+            let tag2 = Tag(name: "Q1-2026", color: "#4CAF50")
+            let tag3 = Tag(name: "client: Acme", color: "#FF9800")
+            ctx.insert(tag1)
+            ctx.insert(tag2)
+            ctx.insert(tag3)
+            let sampleExpenses: [(String, Decimal, String, String, Category?, [Tag]?, Int)] = [
+                ("Delta Airlines", 487.50, "Acme Corp", "", cat("Airline Tickets"), [tag1, tag3], -1),
+                ("Marriott Downtown", 219.00, "Acme Corp", "", cat("Hotel"), [tag1, tag3], -2),
+                ("Marriott Downtown", 219.00, "Acme Corp", "", cat("Hotel"), [tag1, tag3], -3),
+                ("Uber to Airport", 34.75, "Acme Corp", "", cat("Rideshare"), [tag3], -1),
+                ("Lyft to Hotel", 28.50, "Acme Corp", "", cat("Rideshare"), [tag3], -2),
+                ("Blue Bottle Coffee", 6.25, "", "Morning coffee", cat("Food"), [tag2], 0),
+                ("Chipotle", 14.85, "", "Lunch", cat("Food"), [tag2], -1),
+                ("The Capital Grille", 87.40, "Acme Corp", "Client dinner", cat("Food"), [tag1, tag2, tag3], -3),
+                ("Sweetgreen", 16.50, "", "Lunch", cat("Food"), [tag2], -5),
+                ("Starbucks", 5.75, "", "", cat("Food"), nil, -7),
+                ("Airport Parking", 45.00, "", "", cat("Parking"), [tag1], -1),
+                ("Staples", 32.60, "", "Printer paper & pens", cat("Office Supplies"), [tag1], -4),
+                ("Broadway Show", 125.00, "", "Team outing", cat("Entertainment"), nil, -6),
+            ]
+            for (merchant, amount, client, notes, category, tags, dayOffset) in sampleExpenses {
+                let date = cal.date(byAdding: .day, value: dayOffset, to: now) ?? now
+                let expense = Expense(
+                    date: date,
+                    category: category,
+                    tags: tags,
+                    amount: amount,
+                    merchant: merchant,
+                    client: client,
+                    notes: notes
+                )
+                ctx.insert(expense)
+            }
+            try? ctx.save()
+        }
         #endif
 
         let context = container.mainContext
