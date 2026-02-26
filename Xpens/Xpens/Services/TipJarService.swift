@@ -47,13 +47,25 @@ final class TipJarService: ObservableObject {
     }
 
     func loadProducts() async {
-        do {
-            let ids = TipJarProduct.allCases.map(\.rawValue)
-            let storeProducts = try await Product.products(for: ids)
-            products = storeProducts.sorted { $0.price < $1.price }
-        } catch {
-            products = []
+        let ids = TipJarProduct.allCases.map(\.rawValue)
+
+        for attempt in 1...3 {
+            do {
+                let storeProducts = try await Product.products(for: ids)
+                if !storeProducts.isEmpty {
+                    products = storeProducts.sorted { $0.price < $1.price }
+                    return
+                }
+            } catch {
+                print("TipJarService: load attempt \(attempt)/3 failed: \(error)")
+            }
+
+            if attempt < 3 {
+                try? await Task.sleep(for: .seconds(2))
+            }
         }
+
+        products = []
     }
 
     func purchase(_ product: Product) async {

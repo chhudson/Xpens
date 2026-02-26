@@ -18,10 +18,7 @@ struct TipJarView: View {
         .task {
             await service.loadProducts()
             if service.products.isEmpty {
-                try? await Task.sleep(for: .seconds(5))
-                if service.products.isEmpty {
-                    loadingTimedOut = true
-                }
+                loadingTimedOut = true
             }
         }
     }
@@ -46,10 +43,25 @@ struct TipJarView: View {
             if service.products.isEmpty && !loadingTimedOut {
                 ProgressView("Loading...")
             } else if service.products.isEmpty && loadingTimedOut {
-                Text("Tips are not available right now. Please try again later.")
+                Text("Tips are not available right now.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
+
+                Button {
+                    loadingTimedOut = false
+                    Task {
+                        await service.loadProducts()
+                        if service.products.isEmpty {
+                            loadingTimedOut = true
+                        }
+                    }
+                } label: {
+                    Label("Try Again", systemImage: "arrow.clockwise")
+                        .font(.subheadline.weight(.medium))
+                }
+                .buttonStyle(.bordered)
+                .tint(.pink)
             } else {
                 VStack(spacing: 12) {
                     ForEach(service.products, id: \.id) { product in
